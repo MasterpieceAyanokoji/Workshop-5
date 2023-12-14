@@ -52,24 +52,6 @@
 
 визуализация динамики процесса обучения в зависимости от изменяемой величины будет произведена посредством TensorBoard. Для каждой попытки обучения будет предпринято 100 тысяч шагов
 
-1) play_against_latest_model_ratio - вероятность того, что действия агента будут противоположны предыдущей модели. Низкие значения означают, что действия агента будут одинаковы, что затрудняет обучение, в то время как высокие значения могут привести к дистабилизации среды обучения, но позволяют выработать более узкие рамки вариативности поведения, поэтому в этом параметре необходимо искать золотую середину. Принимает значения от 0.0 до 1.0
-
-Значение 0:
-
-![Alt text](https://sun9-67.userapi.com/impg/xk4ibuCD9OxkMWVXRP_nl627up3MbbFTc92Wcg/_5ReqaM3sRI.jpg?size=913x821&quality=96&sign=7fbc289ae070ff0b75983c5027dcaca9&type=album "Environment, play_against_latest_model_ratio = 0.0")
-
-![Alt text](https://sun9-67.userapi.com/impg/1OgyFzp-PV-WZMdu4OPq-1f_qR8ThGlJAqj1wg/MvizRLe4R48.jpg?size=1208x728&quality=96&sign=d2c7cc67a354de0adbc191a35360e307&type=album "Policy, play_against_latest_model_ratio = 0.0")
-
----
-Значение 1:
-
-![Alt text](https://sun9-25.userapi.com/impg/B9isB_KmZq1AITBw0-jbb3s-ktFPHS7N4ekJEw/a6z1m-f2kck.jpg?size=816x808&quality=96&sign=69009e1b172b656c15c03bdd05e1fcf4&type=album "Environment, play_against_latest_model_ratio = 1.0")
-
-![Alt text](https://sun3-20.userapi.com/impg/o1RixjZ78xcbgIgjBdFqx65IOA4yLGeT8eItig/xwjH3WJdlYA.jpg?size=1210x725&quality=96&sign=50089cb51ddfe857242937989cdf1cc9&type=album "Policy, play_against_latest_model_ratio = 1.0")
-
-Как мы можем заметить, при значении 1 график назначения награды ведёт себя крайне не стабильно и имеет скачущую природу, так как агент постоянно пытается менять ход своих действий. Напротив, график награды при нулевом значении крайне пологий, так как агент не предпринимает кардинальных попыток изменить своё поведение. Также стоит отметить сильный рост энтропии при низком значении play_against_latest_model_ratiо, 
-так как из-за почти константного поведения агент не меняет свою политику исследования.
-
 2) time_horizon - количество шагов, которое должен сделать агент, прежде чем он получит награду и будет добавлен в буфер опыта. Если эпизоды обучения слишком велики, то это число уменьшают, но если число будет слишком маленьким, то мы не сможем охватить всё многообразие последовательных шагов агента, что делает обучение не точным или вовсе невозможным, если достижение цели требует большое количество действий от агента.
 
 Значение 32:
@@ -132,21 +114,7 @@
 Напротив, маленькое значение вызвало нарастающую тенденцию награды фактически с самого начала обучения, так как агент действовал здесь и сейчас.
 Также видно, что низкое значение вызывает блокировку накопления знаний агента (График Value Estimate стремиться к нулю). Связано это опять же с незаинтересованностью агента в своём будущем.
 
-5) hyperparameters -> epsilon - определяет максимально возможную степень расхождения между прошлой и настоящей политикой агента. Чем меньше значение, тем медленнее будет обучение, вследствие эффекта хождения по кругу, но зато оно будет стабильным. Наоборот, более выскоие значения предполагают более агрессивное и нестабильное обучение
 
-Значение 0.01:
-
-![Alt text](https://sun9-30.userapi.com/impg/b3HpzDZTQ7y19gFc113S4EB2VPPqk2erwZr3Vw/__QDa1CprC8.jpg?size=813x795&quality=96&sign=0b3189743059a890f729b092642fdda9&type=album "Environment, hyperparameters -> epsilon = 0.01")
-
-![Alt text](https://sun9-23.userapi.com/impg/G8C1uXlWKLJb9zGufc0_d72POx3rg4sHPpAnyQ/CxJlpAiDK0o.jpg?size=1197x718&quality=96&sign=06761600a68c1b242a682f7489c170d8&type=album "Policy, hyperparameters -> epsilon = 0.01")
-
----
-
-Значение 2.0:
-
-![Alt text](https://sun9-29.userapi.com/impg/5KbhVHsG-INxHipZuxvt2vJsNEPN2KBO8xcKNg/kMYNnVn7CMM.jpg?size=856x766&quality=96&sign=74bcc4d6ccf3ae7b787d50aba01b155f&type=album "Environment, hyperparameters -> epsilon = 2.0")
-
-![Alt text](https://sun9-38.userapi.com/impg/rM4QfNT_2JeqllYHgkKOTQWuP3RrPuOzCuaF3w/hHW9QRw9_bk.jpg?size=1187x725&quality=96&sign=23583b88925f135212a6a8251455a512&type=album "Policy, hyperparameters -> epsilon = 2.0")
 
 Как мы можем видеть, низкое значение hyperparameters -> epsilon демонстрирует достаточно стабильный процесс обучения, о чём нам говорят графики награды и ошибок.
 Высокие же значения вызвали дестабилизацию, из-за чего уменьшилась награда и увеличилось количество ошибок, более того, графики начали слегка скакать.
